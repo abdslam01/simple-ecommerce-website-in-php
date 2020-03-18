@@ -1,0 +1,62 @@
+/*overridding bootstrap*/
+.form-group > input[type]{
+    border: 0;
+    outline: none !important;
+}
+input:focus, textarea:focus{
+    outline: none !important;
+}
+.table .img-thumbnail{
+    max-height:80px;
+}
+
+/*mine*/
+.border-bottom-sucess{
+    border-bottom: 2px #28a745 solid !important;
+}
+.border-bottom-info{
+    border-bottom: 2px #17a2b8 solid !important;
+}
+
+body{
+ position: relative;
+ min-height: 100vh; /* will cover the 100% of viewport */
+}
+/*fixing pictures height to be equal to 300px*/
+.pic{
+    max-height:300px;
+}
+#slider{
+			height: calc( 100vh - 56px );
+			width: 100%;
+			margin-bottom: 30px;
+            box-shadow: 1px -2px 5px 2px;
+		}
+		.slide{
+			width:100%;
+			height: calc( 100vh - 56px );
+		}
+		.fw_al_001_slide {
+		    position: absolute;
+		    top: 50%;
+		    left: 50%;
+		    transform: translate(-50%,-50%);
+			color:white;
+			text-shadow: 0px 0px 6px black;
+			text-align: center;
+		}
+
+		.carousel-item {
+		    position: relative;
+		}
+		.nav-pills li {
+    border: 1px solid #007bff;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 5px;
+}
+footer{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
