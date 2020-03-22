@@ -50,8 +50,7 @@ session_start();
 		<div class="col-lg-8 offset-lg-2 mt-3">
 		    <?php if(isset($_GET['visiteur'])){ ?>
 		        <div class="alert alert-warning">
-		            SVP, connecter pour que vous puissent inserer les produits au panier<br>
-		            ou <a herf=login><button class="btn btn-info">Cree un compte</button></a>
+		            SVP, connecter pour que vous puissent inserer les produits au panier ou <a herf=login><button class="btn btn-info btn-sm float-right">Cree un compte</button></a>
 		        </div>
 		    <?php } ?>
 			<form action="<?php echo explode(".",$_SERVER['PHP_SELF'])[0]; ?>" method="post">

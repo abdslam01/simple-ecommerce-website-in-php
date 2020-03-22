@@ -27,26 +27,26 @@
 	<div class="container">
 		<div class="row">
 		    <?php
-		    $arr=[
-		        ["Ordinateur Portble",3500,"img/black-laptop.jpg"],
-		        ["Smartphone",2000,"img/phone.png"],
-		        ["écouteurs",120,"img/headphones.png"]
-		    ];
-			    for($i=0; $i<12; $i++){ ?>
+		    $q="SELECT * from produits";
+            $stmt = $mysqli->stmt_init();
+            $stmt->prepare($q);
+            $stmt->execute();
+            $arr=$stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+			    foreach($arr as $elem){ ?>
 				<div class="col-xl-4 col-md-6 col-sm-12">
 					<div class="card mb-4 shadow-sm">
-						<img src="<?php echo $arr[$i%3][2]; ?>" alt="" srcset="" class="card-img-top pic">
+						<img src="<?php echo $elem['image']; ?>" alt="" srcset="" class="card-img-top pic">
 						<div class="card-body">
-						<h4 class="card-title"><?php echo $arr[$i%3][0]; ?></h4>
-						<small class="text-muted"><?php echo $arr[$i%3][1]; ?> Dhs</small>
+						<h4 class="card-title"><?php echo $elem['title']; ?></h4>
+						<small class="text-muted"><?php echo $elem['prix']; ?> Dhs</small>
 						
 							<div class="d-flex justify-content-between align-items-center">
 								<div class="btn-group">
 								    <form action=panier method=post>
-								        <input type=hidden name=data value="<?php echo $arr[$i%3][0].','.$arr[$i%3][1].','.$arr[$i%3][2]; ?>">
-								        <button type="submit" name=submit class="btn btn-sm btn-outline-warning">Ajouter au panier</button>
+								        <input type=hidden name=data value="<?php echo  $elem['title'].','. $elem['prix'].','. $elem['image']; ?>">
+								        <button type="submit" name=submit class="btn btn-sm btn-outline-warning"><i class="fas fa-shopping-cart"> Ajouter</i></button>
 								    </form>
-									<a href="/produit"><button type="button" class="btn btn-sm btn-outline-info">Details</button></a>
+									<a href="/produit"><button type="button" class="btn btn-sm btn-outline-info"><i class="fas fa-info-circle"></i> Details</button></a>
 								</div>
 								
 							</div>
