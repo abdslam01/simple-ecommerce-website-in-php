@@ -1,0 +1,7 @@
+Nom de binome:
+	-BAHAFID ABDESSALAM
+	-BOUIHROUCHANE AYOUB
+Lien de site:
+	https://bahafid.000webhostapp.com/
+Lien de site sur github:
+	https://github.com/abdslam01/simple-ecommerce-website-in-php
