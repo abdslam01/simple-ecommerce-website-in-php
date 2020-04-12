@@ -1,33 +1,48 @@
 <?php
-    define('SALT','3$%DHe!sqz+&r4HK2v%2');
-
-    define('DB_HOST','localhost');
-    define('DB_DATABASE','id12753165_proj');
-    define('DB_USERNAME','id12753165_bahafid');
-    define('DB_PASSWORD','fE9?BMUL6yZj-F3');
-    $mysqli = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
-    
-    if ($mysqli -> connect_errno) {
-        echo "Failed to connect to MySQL: " . $mysqli -> connect_error;
-        exit();
+define('SALT','3$%DHe!sqz+&r4HK2v%2');
+class db extends PDO{
+    private $conn, $host, $database, $username, $password;
+    public function __construct(){
+        $host='localhost';
+        $database='proj'; // id12753165_proj
+        $username='root'; // id12753165_bahafid
+        $password=''; // fE9?BMUL6yZj-F3
+        try {
+            parent::__construct("mysql:host=$host;dbname=$database", $username, $password);
+            parent::setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        }catch(PDOException $e){
+            die("Connection erreur: " . $e->getMessage());
+        }
     }
-
-
-    /*
-----------------INSERT DATA mySQLi--------------------
-$stmt = $dbConnection->prepare('SELECT * FROM employees WHERE name = ?');
-$stmt->bind_param('s', $name); // 's' specifies the variable type => 'string'
-
-$stmt=$mysqli->query('$sql');
-
---------------GET DATA mySQLi--------------------
-$stmt = $mysqli->stmt_init();
-$stmt->prepare($q);
-$stmt->execute();
-$result=$stmt->get_result(); || NULL    ---> var_dump()
-while ($row = $result->fetch_assoc()) {
-    // Do something with $row
+    public function __destruct(){
+        $conn=null;
+    }
+    public function verifyAndReturn($text){
+        return addslashes(htmlentities($text));
+    }
+    public function generateToken($length = 20)
+    {
+        return bin2hex(random_bytes($length));
+    }
+    public function returnData($query,$type=null){
+        if($type=='one')
+            return $this->query($query)->fetch(PDO::FETCH_ASSOC);
+        else if($type=='many'){
+            $rows=[];
+            $data=$this->query($query)->fetchAll(PDO::FETCH_ASSOC);
+            foreach($data as $r)
+                array_push($rows,$r);
+            return $rows;
+        }
+        return 'Specifier le type';
+    }
+    public function insertData($query,$data=[]){
+        return $this->updateData($query,$data);
+    }
+    public function deleteData($query){
+        return $this->insertData($query);
+    }
+    public function updateData($query,$data=[]){
+        return $this->prepare($query)->execute($data);
+    }
 }
-$stmt->close();
-$mysqli->close();
-    */

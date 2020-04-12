@@ -1,13 +1,11 @@
 <?php
 	$titre="Checkout";
-	include_once('inc/header.php');
+  include_once('inc/header.php');
+  $db=new db;
+  $q="SELECT * FROM users where token='".$db->verifyAndReturn($_COOKIE['token'])."'";
+  $result=$db->returnData($q,'one');
 	if(!isset($_SESSION['user'])){
 	    if(isset($_COOKIE['token'])){
-    	    $q="SELECT * FROM users where token='".verifyAndReturn($_COOKIE['token'])."'";
-    		$stmt = $mysqli->stmt_init();
-    		$stmt->prepare($q);
-    		$stmt->execute();
-    		$result=$stmt->get_result()->fetch_assoc();
     		if(empty($result)){
     		    session_unset();
     		    session_destroy();
@@ -24,7 +22,7 @@
 	}
 	include_once('inc/nav.php');
 ?>
-    <div class="container">
+    <div class="container content mb-5">
       <div class="row mt-3">
         <div class="col-lg-6 order-md-1 offset-lg-3">
           <h4 class="mb-3">Adresse de shippement</h4>
@@ -32,13 +30,13 @@
             <div class="row">
               <div class="col-md-12 mb-3">
                 <label for="firstName">Nom complet</label>
-                <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+                <input type="text" value="<?= $result['username']; ?>" class="form-control" id="firstName" required>
               </div>
             </div>
 
             <div class="mb-3">
               <label for="email">Email</label>
-              <input type="email" class="form-control" id="email" placeholder="vous@exemple.ma" required>
+              <input type="email" value="<?= $result['email']; ?>" class="form-control" id="email" placeholder="vous@exemple.ma" required>
             </div>
 
             <div class="mb-3">
@@ -74,34 +72,43 @@
 
             <div class="d-block my-3">
               <div class="custom-control custom-radio">
-                <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked required>
+                <input id="credit" value=credit name="paymentMethod" type="radio" class="custom-control-input" checked=checked required>
                 <label class="custom-control-label" for="credit">Carte de crédit / débit</label>
               </div>
               <div class="custom-control custom-radio">
-                <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" required>
+                <input id="paypal" value=paypal name="paymentMethod" type="radio" class="custom-control-input" required>
                 <label class="custom-control-label" for="paypal">Paypal</label>
               </div>
             </div>
-            <div class="row">
-              <div class="col-md-6 mb-2">
-                <label for="cc-name">Nom sur la carte</label>
-                <input type="text" class="form-control" id="cc-name" placeholder="" required>
+            <div class="credit">
+              <div class="row">
+                <div class="col-md-6 mb-2">
+                  <label for="cc-name">Nom sur la carte</label>
+                  <input type="text" class="form-control" id="cc-name" required>
+                </div>
+                <div class="col-md-6 mb-2">
+                  <label for="cc-number">Credit card number</label>
+                  <input type="text" class="form-control" id="cc-number"required>
+                </div>
               </div>
-              <div class="col-md-6 mb-2">
-                <label for="cc-number">Credit card number</label>
-                <input type="text" class="form-control" id="cc-number" placeholder="" required>
+              <div class="row">
+                <div class="col-md-3 mb-2">
+                  <label for="cc-expiration">Expiration</label>
+                  <input type="text" class="form-control" id="cc-expiration" required>
+                </div>
+                <div class="col-md-3 mb-2">
+                  <label for="cc-expiration">CVV</label>
+                  <input type="text" class="form-control" id="cc-cvv" required>
+                </div>
               </div>
-            </div>
-            <div class="row">
-              <div class="col-md-3 mb-2">
-                <label for="cc-expiration">Expiration</label>
-                <input type="text" class="form-control" id="cc-expiration" placeholder="" required>
               </div>
-              <div class="col-md-3 mb-2">
-                <label for="cc-expiration">CVV</label>
-                <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
+              <div class="paypal">
+                <div class="row">
+                  <div class="text-center">
+                    <h4>Vous serez redicter vers la page de paypal pour effectuer la payment</h4>
+                  </div>
+                </div>
               </div>
-            </div>
             <hr class="mb-2">
             <button class="btn btn-primary btn-block" type="submit">Continue au checkout</button>
           </form>
@@ -109,5 +116,5 @@
       </div>
 
     </div>
-	<div class="py-5"></div>
+
     <?php include_once('inc/footer.php'); ?>

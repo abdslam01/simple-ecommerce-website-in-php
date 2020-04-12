@@ -1,13 +1,11 @@
 <?php 
 	$titre="Principale";
 	include_once('inc/header.php');
+	$db=new db;
 	if(!isset($_SESSION['user'])){
 	    if(isset($_COOKIE['token'])){
     	    $q="SELECT * FROM users where token='".verifyAndReturn($_COOKIE['token'])."'";
-    		$stmt = $mysqli->stmt_init();
-    		$stmt->prepare($q);
-    		$stmt->execute();
-    		$result=$stmt->get_result()->fetch_assoc();
+    		$result=$db->returnData($q);
     		if(empty($result)){
     		    session_unset();
     		    session_destroy();
@@ -27,11 +25,7 @@
 	<div class="container">
 		<div class="row">
 		    <?php
-		    $q="SELECT * from produits";
-            $stmt = $mysqli->stmt_init();
-            $stmt->prepare($q);
-            $stmt->execute();
-            $arr=$stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+			$arr=$db->returnData("SELECT * from produits",'many');
 			    foreach($arr as $elem){ ?>
 				<div class="col-xl-4 col-md-6 col-sm-12">
 					<div class="card mb-4 shadow-sm">
@@ -46,7 +40,7 @@
 								        <input type=hidden name=data value="<?php echo  $elem['title'].','. $elem['prix'].','. $elem['image']; ?>">
 								        <button type="submit" name=submit class="btn btn-sm btn-outline-warning"><i class="fas fa-shopping-cart"> Ajouter</i></button>
 								    </form>
-									<a href="/produit"><button type="button" class="btn btn-sm btn-outline-info"><i class="fas fa-info-circle"></i> Details</button></a>
+									<a href="produit"><button type="button" class="btn btn-sm btn-outline-info"><i class="fas fa-info-circle"></i> Details</button></a>
 								</div>
 								
 							</div>

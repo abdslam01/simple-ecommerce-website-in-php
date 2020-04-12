@@ -1,8 +1,9 @@
 <?php
+$titre="produit";
 require_once('inc/header.php');
 require_once('inc/nav.php')
 ?>
-<div class="container">
+<div class="container content">
 		<div class="row">
 			
 			<div class="col-md-4 col-sm-12">

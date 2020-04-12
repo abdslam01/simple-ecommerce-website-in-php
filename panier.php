@@ -1,14 +1,11 @@
 <?php
-session_start(); 
     $titre="Panier";
     include_once('inc/header.php');
+    $db=new db;
     if(!isset($_SESSION['user'])){ // si c'est un client connecté
         if(isset($_COOKIE['token'])){
-            $q="SELECT * FROM users where token='".verifyAndReturn($_COOKIE['token'])."'";
-            $stmt = $mysqli->stmt_init();
-            $stmt->prepare($q);
-            $stmt->execute();
-            $result=$stmt->get_result()->fetch_assoc();
+            $q="SELECT * FROM users where token='".$db->verifyAndReturn($_COOKIE['token'])."'";
+            $result=$db->returnData($q);
             if(empty($result)){
                 header('Location: login');
                 exit;
@@ -24,12 +21,10 @@ session_start();
     //ajout d'un produit au panier si le client a cliqué sur ajouter au panier
     if(isset($_POST['submit'])){
         try{
-            $a=explode(',',$_POST['data']);
             $q="insert into panier values(NULL,?,?,?,?)";
-            $stmt = $mysqli->stmt_init();
-            $stmt->prepare($q);
-             $stmt->bind_param("ssss",$a[0],$a[1],$a[2],$_SESSION['id']);
-            if($stmt->execute()){
+            $data=explode(',',$_POST['data']);
+            array_push($data, $_SESSION['id']);
+            if($db->insertData($q, $data)){
                 $Response="Produit ajouter au panier avec success";
                 $alert_type="success";
             }else{
@@ -46,13 +41,13 @@ session_start();
     
     //suppression d'un produit du panier
     if(isset($_POST['delete'])){
-        $stmt = $mysqli->query("delete from panier where id='".$_POST['id']."'");
+        $db->deleteData("delete from panier where id='".$db->verifyAndReturn($_POST['id'])."'");
     }
 ?>
 
-<div class="container">
+<div class="container content">
     <?php if(isset($Response)){ ?>
-        <div class="mt-2 alert alert-<?php echo $alert_type; ?>"><?php echo $Response; ?></div>
+        <div class="mt-2 alert alert-<?= $alert_type; ?>"><?= $Response; ?></div>
     <?php } ?>
 <table class="table table-striped mt-3 mb-5">
   <thead class="thead-dark">
@@ -68,20 +63,17 @@ session_start();
   <tbody>
     <?php 
             if(!isset($_SESSION['id'])){
-                 $stmt = $mysqli->stmt_init()->prepare("select id from users where username='".$_SESSION['user']."'");
-                 $stmt->execute();
-                 $arr=$stmt->get_result()->fetch_assoc();
-                 $_SESSION['id']=$arr['id'];
+                 $q="select id from users where username='".$_SESSION['user']."'";
+                 $_SESSION['id']=$db->returnData($q,'one')['id'];
             }
             $q="SELECT *,count(*) as quantite FROM panier where user_id='".$_SESSION['id']."' group by title";// on recupere tous les produits ajouté par ce client à son panier
-            $stmt = $mysqli->stmt_init();
-            $stmt->prepare($q);
-            $stmt->execute();
-            $arr=$stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+            $arr=$db->returnData($q,'many');
         if(!$arr){ ?> <!-- si le panier est vide -->
             <tr>
                 <td colspan=6>
-                    <div class="lead text-center">Pas de Produit Actuelement</div>
+                    <div class="lead text-center">Pas de Produit Actuelement
+                        <a class="btn btn-dark" href="index">Ajouter Des Produits</a>
+                    </div>
                 </td>
             </tr>
         <?php }else{ //sinon on afficher l'ensemble des produits ajoutés ar le client
@@ -109,6 +101,5 @@ session_start();
   </tbody>
 </table>
 </div>
-<div class="clearfix pt-5"></div>
 
 <?php include_once('inc/footer.php'); ?>

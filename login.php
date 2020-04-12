@@ -1,26 +1,23 @@
 <?php
-session_start(); 
 	$titre="Authentification";
 	include_once('inc/header.php');
-	if($_SESSION['access']==="oui"){
+	$db=new db;
+	if(isset($_SESSION['user'])){
 		header('Location: index');
  		exit;
 	}elseif(isset($_COOKIE['token'])){
-		$stmt=$mysqli->stmt_init();
-		$stmt->prepare("select * from users where token='".verifyAndReturn($_COOKIE['token'])."' limit 1");
-		$stmt->execute();
-		$result=$stmt->get_result()->fetch_assoc();
+		$q="select * from users where token='".$db->verifyAndReturn($_COOKIE['token'])."' limit 1";
+		$result=$db->returnData($q,'one');
 		if(!empty($result)){
 			$_SESSION['user']=$result['username'];
-			$_SESSION['access']="oui";
     		header('Location: index');
      		exit;
 		}
 	}
 	if(isset($_POST['submit']) && $_SERVER['REQUEST_METHOD']=='POST'){
 		$d=[
-			'user'=>verifyAndReturn($_POST['user']),
-			'pass'=>verifyAndReturn($_POST['pass'])
+			'user'=>$db->verifyAndReturn($_POST['user']),
+			'pass'=>$db->verifyAndReturn($_POST['pass'])
 		];
 		$errors=[];
 		if(empty($d['user'])) $errors['user']="entrer votre nom d'utlisatuer s'il vous plait";
@@ -29,10 +26,7 @@ session_start();
 		if(empty($errors)){
 			$tmp=sha1($d['pass'].SALT);
 			$q="SELECT * FROM users where username='${d['user']}' and password='$tmp'";
-			$stmt = $mysqli->stmt_init();
-			$stmt->prepare($q);
-			$stmt->execute();
-			$result=$stmt->get_result()->fetch_assoc();
+			$result=$db->returnData($q,'one');
 			if($result){
 				setcookie("token",$result['token'],time()+24*3600);
 				$_SESSION['logged']=$result['token'];
@@ -46,7 +40,7 @@ session_start();
 	}
 	include_once('inc/nav.php');
 ?>
-	<div class="container">
+	<div class="container content">
 		<div class="col-lg-8 offset-lg-2 mt-3">
 		    <?php if(isset($_GET['visiteur'])){ ?>
 		        <div class="alert alert-warning">

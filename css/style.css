@@ -11,6 +11,9 @@ input:focus, textarea:focus{
 }
 
 /*mine*/
+.content{
+	min-height: calc(100vh - 128px) !important;
+}
 .border-bottom-sucess{
     border-bottom: 2px #28a745 solid !important;
 }
@@ -54,9 +57,4 @@ body{
     margin: 20px;
     padding: 20px;
     border-radius: 5px;
-}
-footer{
-    position: absolute;
-    bottom: 0;
-    width: 100%;
 }
