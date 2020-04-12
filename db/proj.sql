@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.5
+-- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Apr 12, 2020 at 02:18 PM
--- Server version: 10.3.16-MariaDB
--- PHP Version: 7.3.12
+-- Host: 127.0.0.1
+-- Generation Time: Apr 13, 2020 at 12:21 AM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.4.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `id12753165_proj`
+-- Database: `proj`
 --
 
 -- --------------------------------------------------------
@@ -58,7 +58,9 @@ INSERT INTO `panier` (`id`, `title`, `prix`, `image`, `user_id`) VALUES
 (46, 'Smartphone', 2000, 'img/phone.png', 19),
 (49, 'Ordinateur Portble', 3500, 'img/black-laptop.jpg', 21),
 (50, 'écouteurs', 120, 'img/headphones.png', 21),
-(51, 'Ordinateur Portble', 3500, 'img/black-laptop.jpg', 8);
+(58, 'Ordinateur Portble', 3500, 'img/black-laptop.jpg', 8),
+(59, 'Ordinateur Portble', 3500, 'img/black-laptop.jpg', 8),
+(60, 'Ordinateur Portble', 3500, 'img/black-laptop.jpg', 8);
 
 -- --------------------------------------------------------
 
@@ -80,7 +82,9 @@ CREATE TABLE `produits` (
 INSERT INTO `produits` (`id`, `title`, `prix`, `image`) VALUES
 (1, 'Ordinateur Portble', 3500, 'img/black-laptop.jpg'),
 (2, 'Smartphone', 2000, 'img/phone.png'),
-(3, 'écouteurs', 120, 'img/headphones.png');
+(3, 'écouteurs', 120, 'img/headphones.png'),
+(7, 'Lunette VR', 500, 'img/lunette-vr.jpg'),
+(8, 'Television UHD', 6500, 'img/television.jpg');
 
 -- --------------------------------------------------------
 
@@ -146,19 +150,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `panier`
 --
 ALTER TABLE `panier`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `produits`
 --
 ALTER TABLE `produits`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- Constraints for dumped tables

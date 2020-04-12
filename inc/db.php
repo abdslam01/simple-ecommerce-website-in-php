@@ -4,9 +4,9 @@ class db extends PDO{
     private $conn, $host, $database, $username, $password;
     public function __construct(){
         $host='localhost';
-        $database='proj'; // id12753165_proj
-        $username='root'; // id12753165_bahafid
-        $password=''; // fE9?BMUL6yZj-F3
+        $database='proj';
+        $username='root';
+        $password='';
         try {
             parent::__construct("mysql:host=$host;dbname=$database", $username, $password);
             parent::setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

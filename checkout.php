@@ -10,21 +10,40 @@
     		    session_unset();
     		    session_destroy();
     		    setcookie('token',$_COOKIE['token'],time()-1);
-    		}else{
+    		}else
     		    $_SESSION['user']=$result['username'];
-    		    $_SESSION['id']=$result['id'];
-    		}
 	    }else{
     		    session_unset();
     		    session_destroy();
     		    header('Location: login');
     	}
 	}
-	include_once('inc/nav.php');
+  include_once('inc/nav.php');
+  $_SESSION['id']=$result['id'];
+  $somme=intval($db->returnData("select sum(prix) as somme from panier where user_id=".$_SESSION['id'],'one')['somme']);
 ?>
-    <div class="container content mb-5">
+    <div class="container content justify-content-center mb-5">
       <div class="row mt-3">
-        <div class="col-lg-6 order-md-1 offset-lg-3">
+        <div class="col-lg-4 border border-primary h-100">
+          <div>
+            <h3>la récapitulation</h3>
+          </div>
+          <div class='<?= $somme==0 ?"d-none":""; ?>'>
+            <ul class="list-group list-group-flush mb-1">
+              <li class="list-group-item active">Prix: <b class="float-right">$<?= $somme; ?></b></li>
+              <li class="list-group-item list-group-item-primary">T.V.A. (10%): <b class="float-right">$<?= $somme*0.1; ?></b></li>
+              <li class="list-group-item list-group-item-primary">Prix ​​final: <b class="float-right">$<?= $somme*1.1; ?></b></li>
+            </ul>
+          </div>
+          <div class='<?= $somme!=0 ?"d-none":""; ?>'>
+            <ul class="list-group list-group-flush mb-1">
+              <li class="list-group-item active">
+                <b>Pas De Produits Actuellement</b>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-7 order-md-1">
           <h4 class="mb-3">Adresse de shippement</h4>
           <form class="needs-validation" novalidate>
             <div class="row">
@@ -58,7 +77,7 @@
               </div>
               <div class="col-md-4 mb-3">
                 <label for="state">Ville</label>
-				<input type="text" class="form-control" required>
+				        <input type="text" class="form-control" required>
               </div>
               <div class="col-md-3 mb-3">
                 <label for="zip">Zip</label>
