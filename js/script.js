@@ -16,6 +16,7 @@
       }, false);
     });
   }, false);
+  
   //HideOrShow
   $('.paypal').hide();
   $('.custom-control-input').on('change',function(){

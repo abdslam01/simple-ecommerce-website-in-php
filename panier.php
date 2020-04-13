@@ -5,7 +5,7 @@
     if(!isset($_SESSION['user'])){ // si c'est un client connecté
         if(isset($_COOKIE['token'])){
             $q="SELECT * FROM users where token='".$db->verifyAndReturn($_COOKIE['token'])."'";
-            $result=$db->returnData($q);
+            $result=$db->returnData($q,'one');
             if(empty($result)){
                 header('Location: login');
                 exit;
@@ -14,10 +14,11 @@
                 $_SESSION['id']=$result['id']; //on recupere l'ID du client
             }
         }else{ // si n'est pas un client
-            header('Location: login?visiteur'); //redirection vers la page de login
+            $_SESSION['visiteur']="v";
+            header('Location: login'); //redirection vers la page de login
             exit;
         }
-    }
+    } 
     //ajout d'un produit au panier si le client a cliqué sur ajouter au panier
     if(isset($_POST['submit'])){
         try{
@@ -31,7 +32,7 @@
                 $Response="Produit n'est pas ajouter";
                 $alert_type="danger";
             }
-
+            
         }catch(Exception $e){
             $Response=$e->getMessage();
             $alert_type="danger";
@@ -47,7 +48,7 @@
 
 <div class="container content">
     <?php if(isset($Response)){ ?>
-        <div class="mt-2 alert alert-<?= $alert_type; ?>"><?= $Response; ?></div>
+        <div class="mt-2 alert alert-<?= $alert_type.'">'.$Response; ?></div>
     <?php } ?>
 <table class="table table-striped mt-3 mb-5">
   <thead class="thead-dark">
@@ -76,25 +77,27 @@
                     </div>
                 </td>
             </tr>
-        <?php }else{ //sinon on afficher l'ensemble des produits ajoutés ar le client
+        <?php }else{ //sinon on afficher l'ensemble des produits ajoutés par le client
         foreach($arr as $element){
+            $p_id=$db->returnData("select id from produits where title='".$element['title']."'",'one')['id'];
     ?>
     <tr>
-      <th scope="row"><?php echo $element['id']; ?></th>
-      <td><?php echo $element['title']; ?></td>
-      <td><?php echo $element['prix']; ?></td>
+      <th scope="row"><?=$element['id']; ?></th>
+      <td><?=$element['title']; ?></td>
+      <td><?=$element['prix']; ?></td>
       <td>
-          <img src="<?php echo $element['image']; ?>" class="img-thumbnail">
+          <img src="<?=$element['image']; ?>" class="img-thumbnail">
       </td>
-      <td><?php echo $element['quantite']; ?></td>
+      <td><?=$element['quantite']; ?></td>
       <td>
-          <form method=post action=panier>
-    		<div class="btn-group">
-    			<a href="checkout"><button type="button" class="pr-3 btn btn-success"><i class="fas fa-shopping-bag"></i></button></a>
-    			<input type=hidden name=id value=<?php echo $element['id']; ?>>
-    			<button type="submit" name='delete' class="pl-3 btn btn-danger"><i class="fas fa-trash"></i></button>
-    		</div>
-          </form>
+        <div class="btn-group">
+            <a href="checkout"><button class="pr-3 btn btn-success"><i class="fas fa-shopping-bag"></i></button></a>
+            <a href="produit?p=<?=$p_id?>"><button class="pr-3 btn btn-warning"><i class="fas fa-info-circle"></i></button></a>
+            <form method=post action=panier>
+                <input type=hidden name=id value=<?=$element['id']; ?>>
+                <button type="submit" name='delete' class="pl-3 btn btn-danger"><i class="fas fa-trash"></i></button>
+            </form>
+        </div>
       </td>
     </tr>
     <?php }} ?>

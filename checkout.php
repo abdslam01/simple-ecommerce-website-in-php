@@ -113,11 +113,11 @@
               <div class="row">
                 <div class="col-md-3 mb-2">
                   <label for="cc-expiration">Expiration</label>
-                  <input type="text" class="form-control" id="cc-expiration" required>
+                  <input type="text" placeholder="MM/YY" class="form-control" id="cc-expiration" required>
                 </div>
                 <div class="col-md-3 mb-2">
                   <label for="cc-expiration">CVV</label>
-                  <input type="text" class="form-control" id="cc-cvv" required>
+                  <input type="text" placeholder="XXX ou XXXX" class="form-control" id="cc-cvv" required>
                 </div>
               </div>
               </div>

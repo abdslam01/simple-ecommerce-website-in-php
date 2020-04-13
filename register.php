@@ -22,11 +22,17 @@
 			'pass2'=>$db->verifyAndReturn($_POST['pass2']),
 			'token'=>$db->generateToken()
 		];
+		$_SESSION['userTmp']=$d['user'];
+		$_SESSION['emailTmp']=$d['email'];
 		$errors=[];
 		if(empty($d['user'])) $errors['user']="User ne doit pas etre vide";
 		if(empty($d['email'])) $errors['email']="Email ne doit pas etre vide";
 		if(empty($d['pass'])) $errors['pass']="Mot de pass est requet ne doit pas etre vide";
 		else if($d['pass'] != $d['pass2']) $errors['pass2']="Mot de passe doit etre la meme";
+		if(empty($errors)){
+			if(!$db->validateEmail($d['email'])) $errors['email']="Email n'est pas valide";
+			if(!$db->validatePass($d['pass'])) $errors['pass']="mot de passe enter est faible,<br><span class=small>min 8 caractère, lettre majiscule, chiffre, caractère special</span>";
+		}
 
 		if(empty($errors)){
 			$tmp=sha1($d['pass'].SALT);
@@ -54,7 +60,7 @@
 				<?php } ?>
 				<div class="form-group">
 					<label for="">Nom d'utilisateur: </label>
-					<input type="text" name=user class="form-control border-bottom-info" required autocomplete="off">
+					<input type="text" value="<?php if(isset($_SESSION['userTmp'])){echo $_SESSION['userTmp'];unset($_SESSION['userTmp']);}?>" name=user class="form-control border-bottom-info" required autocomplete="off">
 				</div>
 				<?php if(isset($errors['user'])){ ?>
 					<div class="alert alert-danger">
@@ -63,7 +69,7 @@
 				<?php } ?>
 				<div class="form-group">
 					<label for="">Email: </label>
-					<input type="email" name=email class="form-control border-bottom-info" required autocomplete="off">
+					<input type="email" value="<?php if(isset($_SESSION['emailTmp'])){echo $_SESSION['emailTmp'];unset($_SESSION['emailTmp']);}?>" name=email class="form-control border-bottom-info" required autocomplete="off">
 				</div>
 				<?php if(isset($errors['email'])){ ?>
 					<div class="alert alert-danger">

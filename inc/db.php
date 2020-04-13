@@ -18,11 +18,17 @@ class db extends PDO{
         $conn=null;
     }
     public function verifyAndReturn($text){
-        return addslashes(htmlentities($text));
+        return addslashes(htmlentities(strip_tags($text)));
     }
     public function generateToken($length = 20)
     {
         return bin2hex(random_bytes($length));
+    }
+    public function validateEmail($email){
+        return filter_var($email, FILTER_VALIDATE_EMAIL);
+    }
+    public function validatePass($pass){
+        return preg_match("/^(?=.*[0-9]+)(?=.*[\*&%$#@\!\?\/]*)(?=.*[A-Z]+){8,}/",$pass);
     }
     public function returnData($query,$type=null){
         if($type=='one')

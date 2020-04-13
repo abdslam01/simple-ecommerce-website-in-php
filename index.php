@@ -4,8 +4,8 @@
 	$db=new db;
 	if(!isset($_SESSION['user'])){
 	    if(isset($_COOKIE['token'])){
-    	    $q="SELECT * FROM users where token='".verifyAndReturn($_COOKIE['token'])."'";
-    		$result=$db->returnData($q);
+    	    $q="SELECT * FROM users where token='".$db->verifyAndReturn($_COOKIE['token'])."'";
+    		$result=$db->returnData($q,'one');
     		if(empty($result)){
     		    session_unset();
     		    session_destroy();
@@ -25,8 +25,7 @@
 	<div class="container">
 		<div class="row">
 		    <?php
-			$arr=$db->returnData("SELECT * from produits",'many');
-			    foreach($arr as $elem){ ?>
+			foreach($db->returnData("SELECT * from produits",'many') as $elem){ ?>
 				<div class="col-xl-4 col-md-6 col-sm-12">
 					<div class="card mb-4 shadow-sm">
 						<img src="<?php echo $elem['image']; ?>" alt="" srcset="" class="card-img-top pic">
@@ -37,10 +36,10 @@
 							<div class="d-flex justify-content-between align-items-center">
 								<div class="btn-group">
 								    <form action=panier method=post>
-								        <input type=hidden name=data value="<?php echo  $elem['title'].','. $elem['prix'].','. $elem['image']; ?>">
+								        <input type=hidden name=data value="<?=$elem['title'].','. $elem['prix'].','. $elem['image']; ?>">
 								        <button type="submit" name=submit class="btn btn-sm btn-outline-warning"><i class="fas fa-shopping-cart"> Ajouter</i></button>
 								    </form>
-									<a href="produit"><button type="button" class="btn btn-sm btn-outline-info"><i class="fas fa-info-circle"></i> Details</button></a>
+									<a href="produit?p=<?= $elem['id']; ?>"><button type="button" class="btn btn-sm btn-outline-info"><i class="fas fa-info-circle"></i> Details</button></a>
 								</div>
 								
 							</div>
