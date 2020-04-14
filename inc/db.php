@@ -45,8 +45,8 @@ class db extends PDO{
     public function insertData($query,$data=[]){
         return $this->updateData($query,$data);
     }
-    public function deleteData($query){
-        return $this->insertData($query);
+    public function deleteData($query,$data=[]){
+        return $this->prepare($query)->execute($data);
     }
     public function updateData($query,$data=[]){
         return $this->prepare($query)->execute($data);

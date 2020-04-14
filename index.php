@@ -20,10 +20,32 @@
     	}
 	}
 	include_once('inc/nav.php');
+
+	if(isset($_SESSION['deleted'])){
+		if($_SESSION['deleted']){
+			echo "<div class='alert alert-success text-center'><b>Votre compte à été supprimer avec succés</b></div>";
+			session_unset();
+			session_destroy();
+		}else echo "<div class='alert alert-danger text-center'><b>Erreur durant la suppression, SVP réessayez</b></div>";
+		unset($_SESSION['deleted']);
+	}
+
 	include_once('inc/slider.php');
 ?>
 	<div class="container">
 		<div class="row">
+			<div class="col-xl-4 col-md-6 col-sm-12">
+				<div class="card mb-4 shadow-sm">
+					<img src="img/Rapport.jpg" alt="" srcset="" class="card-img-top  pt-2">
+					<div class="card-body">
+						<h4 class="card-title">Le Rapport De Ce Projet</h4>
+						<a href="Rapport/Rapport.pdf" class="nav-link">
+							<button type="button" class="btn btn-sm btn-block btn-outline-info">
+							<i class="fas fa-download"></i> Teléchager</button>
+						</a>
+					</div>
+				</div>
+			</div>
 		    <?php
 			foreach($db->returnData("SELECT * from produits",'many') as $elem){ ?>
 				<div class="col-xl-4 col-md-6 col-sm-12">

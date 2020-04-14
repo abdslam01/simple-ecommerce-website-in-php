@@ -19,6 +19,7 @@
             exit;
         }
     } 
+    if(!isset($_SESSION['id'])) $_SESSION['id']=$db->returnData("SELECT id FROM users where token='".$db->verifyAndReturn($_COOKIE['token'])."'",'one')['id'];
     //ajout d'un produit au panier si le client a cliqué sur ajouter au panier
     if(isset($_POST['submit'])){
         try{
@@ -46,7 +47,7 @@
     }
 ?>
 
-<div class="container content">
+<div class="container content mt-2">
     <?php if(isset($Response)){ ?>
         <div class="mt-2 alert alert-<?= $alert_type.'">'.$Response; ?></div>
     <?php } ?>
@@ -67,7 +68,7 @@
                  $q="select id from users where username='".$_SESSION['user']."'";
                  $_SESSION['id']=$db->returnData($q,'one')['id'];
             }
-            $q="SELECT *,count(*) as quantite FROM panier where user_id='".$_SESSION['id']."' group by title";// on recupere tous les produits ajouté par ce client à son panier
+            $q="SELECT *,count(*) as quantite,sum(prix) as somme FROM panier where user_id='".$_SESSION['id']."' group by title";// on recupere tous les produits ajouté par ce client à son panier
             $arr=$db->returnData($q,'many');
         if(!$arr){ ?> <!-- si le panier est vide -->
             <tr>
@@ -100,7 +101,13 @@
         </div>
       </td>
     </tr>
-    <?php }} ?>
+        <?php } ?>
+    <tr>
+        <td colspan=6>
+            <div class="lead text-center text-primary"><b>Total est:  $<?=$element['somme'];?></b></div>
+        </td>
+    </tr>
+    <?php } ?>
   </tbody>
 </table>
 </div>

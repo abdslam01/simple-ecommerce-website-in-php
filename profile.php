@@ -31,6 +31,14 @@
 					<input type="text" name=user value="<?= $result['username']; ?>" class="form-control border-bottom-sucess" autocomplete="off">
                 </div>
                 <div class="form-group">
+					<label for="">Nom Complet: </label>
+					<input type="text" name=fname value="<?= $result['fname']; ?>" class="form-control border-bottom-sucess" autocomplete="off">
+                </div>
+                <div class="form-group">
+					<label for="">Numéro de telephone: </label>
+					<input type="text" name=number value="<?= $result['number']; ?>" class="form-control border-bottom-sucess" autocomplete="off">
+                </div>
+                <div class="form-group">
 					<label for="">Email: </label>
 					<input type="text" name=email value="<?= $result['email']; ?>" class="form-control border-bottom-sucess" autocomplete="off">
 				</div>
@@ -41,7 +49,7 @@
                     <input type="hidden" name="id" value="<?= $result['id']; ?>">
 				</div>
 				<div class="form-group">
-					<input type="submit" name=submit class="btn btn-dark" value="Mise à jout">
+					<input type="submit" name=updateUser class="btn btn-dark" value="Mise à jout">
 				</div>
 			</form>
         </div>
@@ -53,11 +61,12 @@
         <div class="col-md-8 offset-md-2">
             <div class="card">
                 <?php if(isset($_SESSION['updated'])){
-                    echo $_SESSION['updated'];
-                    unset($_SESSION['updated']);
-                 } ?>
+                        if($_SESSION['updated']) echo "<div class='alert alert-success'><b>Donées Modifier Avec Succés</b></div>";
+                        else echo "<div class='alert alert-danger'><b>Donées Ne Sont Pas Modifer, SVP réessayez</b></div>";
+                        unset($_SESSION['updated']);
+                    } ?>
                 <div class="card-body text-center">
-                    <h4 class="card-title">Bonjour <?php echo $result['username']; ?></h4>
+                    <h4 class="card-title">Bonjour <?=$result['username']; ?></h4>
                     <div class="text-center">
                         <img src="img/avatar-man.png" alt="avatar par defaut" class="img-thumbnail" style="max-width:40%">
                     </div>
@@ -65,6 +74,10 @@
                     <div class="btn-group btn-group-toggle" data-toggle="buttons">
                         <form method=post action="<?= explode('.',$_SERVER['PHP_SELF'])[0]; ?>">
                             <button type="submit" name=update class="btn btn-sm btn-outline-warning">modifer le profile</button>
+                        </form>
+                        <form action="updateUserData" method="post" class="ml-2">
+                            <input type="submit" name=deleteUser class="btn btn-sm btn-outline-danger" value="Supprimer Votre Compte" onclick="return confirm('Est-ce-que Vous êtes sûr?');">
+                            <input type="hidden" name="id" value="<?= $result['id']; ?>">
                         </form>
                     </div>
                 </div>

@@ -36,7 +36,7 @@
 
 		if(empty($errors)){
 			$tmp=sha1($d['pass'].SALT);
-			$sql="INSERT INTO users VALUES(NULL,?,?,?,?)";
+			$sql="INSERT INTO users VALUES(NULL,?,'','',?,?,?)";
 			if($db->insertData($sql,[$d['user'], $d['email'], $tmp, $d['token']])){
 				setcookie("token",$d['token'],time()+24*3600);
 				$_SESSION['logged']=$_COOKIE['token'];
