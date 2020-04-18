@@ -36,13 +36,19 @@
 		<div class="row">
 			<div class="col-xl-4 col-md-6 col-sm-12">
 				<div class="card mb-4 shadow-sm">
-					<img src="img/Rapport.jpg" alt="" srcset="" class="card-img-top  pt-2">
+					<img src="img/rapport.jpg" class="card-img-top  pt-2">
 					<div class="card-body">
 						<h4 class="card-title">Le Rapport De Ce Projet</h4>
-						<a href="Rapport/Rapport.pdf" class="nav-link">
-							<button type="button" class="btn btn-sm btn-block btn-outline-info">
-							<i class="fas fa-download"></i> Teléchager</button>
-						</a>
+				    	<div class="d-flex justify-content-between align-items-center">
+							<div class="btn-group">
+							    <a href="Rapport/Rapport.pdf">
+							        <button class="btn btn-sm btn-outline-info"><i class="fas fa-download"> Teléchager</i></button>
+							    </a>
+								<a href="MiniProjDetails.txt">
+								    <button class="btn btn-sm btn-outline-secondary"><i class="fas fa-info-circle"></i> Details</button>
+								</a>
+							</div>
+					    </div>
 					</div>
 				</div>
 			</div>

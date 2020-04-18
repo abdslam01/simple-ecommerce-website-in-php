@@ -11,7 +11,14 @@
                 <li class="nav-item">
                     <a class="nav-link" href="panier">Panier</a>
                 </li>
-            <?php } ?>
+            <?php
+            $role=$db->returnData("select role from users where username='".$_SESSION['user']."' limit 1","one");
+            if($role["role"]=="admin"){ ?>
+            <li class="nav-item">
+                    <a class="nav-link" href="dashboard">Dashboard</a>
+            </li>
+            <?php }} ?>
+            
         </ul>
         <ul class="navbar-nav ml-auto">
         <form class="form-inline my-2 my-lg-0">

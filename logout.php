@@ -4,5 +4,5 @@
     session_destroy();
     if(isset($_COOKIE['token']))
     setcookie("token",$_COOKIE['token'],time()-1);
-    header('Location: index');
+    header('Location: '.$_SERVER['HTTP_REFERER']);
     exit;

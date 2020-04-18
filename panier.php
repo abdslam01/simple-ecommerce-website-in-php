@@ -79,7 +79,9 @@
                 </td>
             </tr>
         <?php }else{ //sinon on afficher l'ensemble des produits ajoutés par le client
+        $somme=0;
         foreach($arr as $element){
+            $somme+=$element['quantite']*$element['prix'];
             $p_id=$db->returnData("select id from produits where title='".$element['title']."'",'one')['id'];
     ?>
     <tr>
@@ -92,7 +94,7 @@
       <td><?=$element['quantite']; ?></td>
       <td>
         <div class="btn-group">
-            <a href="checkout"><button class="pr-3 btn btn-success"><i class="fas fa-shopping-bag"></i></button></a>
+            
             <a href="produit?p=<?=$p_id?>"><button class="pr-3 btn btn-warning"><i class="fas fa-info-circle"></i></button></a>
             <form method=post action=panier>
                 <input type=hidden name=id value=<?=$element['id']; ?>>
@@ -103,8 +105,12 @@
     </tr>
         <?php } ?>
     <tr>
-        <td colspan=6>
-            <div class="lead text-center text-primary"><b>Total est:  $<?=$element['somme'];?></b></div>
+        <td colspan=4></td>
+        <td>
+            <div class="lead text-center text-primary"><b>Total est:  $<?=$somme;?></b></div>
+        </td>
+        <td>
+            <a href="/checkout"><button class="btn btn-primary">checkout</button></a>
         </td>
     </tr>
     <?php } ?>

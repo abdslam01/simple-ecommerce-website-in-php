@@ -32,7 +32,7 @@
             <ul class="list-group list-group-flush mb-1">
               <li class="list-group-item active">Prix: <b class="float-right">$<?= $somme; ?></b></li>
               <li class="list-group-item list-group-item-primary">T.V.A. (10%): <b class="float-right">$<?= $somme*0.1; ?></b></li>
-              <li class="list-group-item list-group-item-primary">Prix ​​final: <b class="float-right">$<?= $somme*1.1; ?></b></li>
+              <li class="list-group-item list-group-item-primary">Prix final: <b class="float-right">$<?= $somme*1.1; ?></b></li>
             </ul>
           </div>
           <div class='<?= $somme!=0 ?"d-none":""; ?>'>
@@ -124,7 +124,7 @@
               <div class="paypal">
                 <div class="row">
                   <div class="text-center">
-                    <h4>Vous serez redicter vers la page de paypal pour effectuer la payment</h4>
+                    <h4>Vous serez redireger vers la page de paypal pour effectuer le payment</h4>
                   </div>
                 </div>
               </div>
